@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gql, useQuery, useMutation  } from '@apollo/client';
 import { TextField, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import styles from './AppStyle.js';
+import styles from './ChatStyle.js';
 
 const GET_MESSAGES = gql`
   query GET_MESSAGES {
@@ -28,7 +28,7 @@ const ADD_MESSAGE = gql`
   }
 `; 
 
-function App(props) {
+function Chat(props) {
   const { classes } = props;
   const [ textInput, setTextInput ] = useState('');
   const messagesEndRef = useRef(null)
@@ -104,4 +104,4 @@ function App(props) {
   );
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(Chat);
