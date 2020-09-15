@@ -1,4 +1,5 @@
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { createBrowserHistory } from "history";
 import dotenv from 'dotenv';
 import React from 'react';
@@ -22,12 +23,22 @@ if( process.env.REACT_APP_BACKEND_SERVER ) {
 
 const httpLink = createHttpLink({ uri });
 
-const hist = createBrowserHistory();
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
+});
 
 const client = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache()
 });
+
+const hist = createBrowserHistory();
 
 function App() {
   return (

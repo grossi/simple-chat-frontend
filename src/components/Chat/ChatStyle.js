@@ -17,7 +17,8 @@ export default {
   header: {
     maginTop: "10px",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    display: "flex",
   },
   messageText: {
     textAlign: "left",

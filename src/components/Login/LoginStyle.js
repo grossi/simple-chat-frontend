@@ -19,4 +19,7 @@ export default {
     alignItems: "center",
     justifyContent: "center",
   },
+  submitButton: {
+    backgroundColor: "#8ec4f5",
+  },
 }

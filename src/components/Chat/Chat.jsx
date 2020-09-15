@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gql, useQuery, useMutation  } from '@apollo/client';
 import { TextField, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import UserHeader from '../UserHeader/UserHeader';
 import styles from './ChatStyle.js';
 
 const GET_MESSAGES = gql`
@@ -9,6 +10,7 @@ const GET_MESSAGES = gql`
     messages{
       id
       text
+      timeStamp
       creator {
         name
       }
@@ -30,7 +32,7 @@ const ADD_MESSAGE = gql`
 
 function Chat(props) {
   const { classes } = props;
-  const [ textInput, setTextInput ] = useState('');
+  const [textInput, setTextInput] = useState('');
   const messagesEndRef = useRef(null)
   
   const scrollToBottom = () => {
@@ -61,6 +63,7 @@ function Chat(props) {
       <div className={classes.root}>
         <header className={classes.header}>
           <h1> Simple Chat </h1>
+          <UserHeader />
         </header>
         <div className={classes.messagesBlock} id={"messagesBlock"}>
             <>
