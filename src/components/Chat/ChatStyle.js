@@ -27,9 +27,17 @@ export default {
     whiteSpace: "pre-wrap"
   },
   messageTitle: {
+    display: "flex",
+    alignItems: "flex-end"
+  },
+  creatorName: {
     textAlign: "left",
     fontSize: "large",
     fontWeight: "bold"
+  },
+  timeStamp: {
+    margin: "2px 4px",
+    fontSize: "10px",
   },
   messageBlock: {
     width: "100%"

@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gql, useQuery, useMutation  } from '@apollo/client';
 import { TextField, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { DateTime } from 'luxon';
 import UserHeader from '../UserHeader/UserHeader';
 import styles from './ChatStyle.js';
 
 const GET_MESSAGES = gql`
-  query GET_MESSAGES {
-    messages{
+  query GET_MESSAGES($limit: Int) {
+    messages(limit:$limit){
       id
       text
       timeStamp
@@ -42,6 +43,12 @@ function Chat(props) {
 
   useEffect(()=>{scrollToBottom()});
 
+  const formatDate = (date) => {
+    const jsDate = new Date(Number(date));
+    const newDate = DateTime.fromISO(jsDate.toISOString());
+    return newDate.toLocaleString(DateTime.DATETIME_SHORT);
+  }
+
   const [addMessage] = useMutation(ADD_MESSAGE, {
       refetchQueries:[{query: GET_MESSAGES}],
       awaitRefetchQueries: true,
@@ -49,13 +56,13 @@ function Chat(props) {
     },
   );
 
-  const { loading, error, data: messagesData } = useQuery(GET_MESSAGES, { onCompleted: scrollToBottom, pollInterval: 1000 });
-  
+  const { loading, error, data: messagesData } = useQuery(GET_MESSAGES, { variables: { limit: 50 }, onCompleted: scrollToBottom, pollInterval: 1000 });
+
   if( error ) {
     console.log('[GET_MESSAGES] ERROR: ', error);
     return null;
   }
-  
+
   if( loading ) return null;
 
   return (
@@ -69,7 +76,12 @@ function Chat(props) {
             <>
               {messagesData.messages.map((message, i) => (
                 <div className={classes.messageBlock} key={i}>
-                  <p className={classes.messageTitle}>{message.creator ? message.creator.name : 'Anonymous'}</p>
+                  <div className={classes.messageTitle}>
+                    <div className={classes.creatorName}>{message.creator ? message.creator.name : 'Anonymous'}</div>
+                    <div className={classes.timeStamp}>
+                      {message.timeStamp ? formatDate(message.timeStamp) : ''}
+                    </div>
+                  </div>
                   <p className={classes.messageText}>{message.text}</p>
                 </div>
               ))}
