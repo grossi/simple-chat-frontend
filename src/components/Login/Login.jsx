@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { TextField, Button } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './LoginStyle.js';
 import bcrypt from 'bcryptjs';
@@ -31,6 +32,7 @@ function Login(props) {
   const [userNameInput, setUserNameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordConfirmationInput, setPasswordConfirmationInput] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [addUser] = useMutation(ADD_USER, { errorPolicy: 'all' });
   const [authUser] = useMutation(AUTH_USER, { errorPolicy: 'all' });
   const [getSalt] = useMutation(PASSWORD_SALT, { errorPolicy: 'all' });
@@ -39,6 +41,7 @@ function Login(props) {
     setUserNameInput('');
     setPasswordInput('');
     setPasswordConfirmationInput('');
+    setErrorMessage('');
     setIsRegistering(!isRegistering);
   }
 
@@ -50,12 +53,27 @@ function Login(props) {
 
   const login = async event => {
     event.preventDefault();
+    setErrorMessage('');
 
-    const { data: { passwordSalt: salt } } = await getSalt({ variables: { name: userNameInput }});
+    const getSaltResponse = await getSalt({ variables: { name: userNameInput }});
+
+    if( getSaltResponse.errors ) {
+      setErrorMessage(getSaltResponse.errors[0].message);
+      return false;
+    }
+
+    const salt = getSaltResponse.data.passwordSalt;
 
     const password = await bcrypt.hash(passwordInput, salt);
 
-    const { data: { authUser: token } } = await authUser({ variables: { name: userNameInput, password } });
+    const authUserResponse = await authUser({ variables: { name: userNameInput, password } });
+
+    if( authUserResponse.errors ) {
+      setErrorMessage(authUserResponse.errors[0].message);
+      return false;
+    }
+
+    const token = authUserResponse.data.authUser;
 
     localStorage.setItem('token', token);
     window.location.assign('/');
@@ -63,13 +81,22 @@ function Login(props) {
 
   const register = async event => {
     event.preventDefault();
+    setErrorMessage('');
 
     if( passwordInput === passwordConfirmationInput ) {
       const { salt, password } = await hashPassword(passwordInput);
 
-      await addUser({ variables: { name: userNameInput, password, passwordSalt: salt } });
+      const addUserResponse = await addUser({ variables: { name: userNameInput, password, passwordSalt: salt } });
+
+      if( addUserResponse.errors ) {
+        setErrorMessage(addUserResponse.errors[0].message);
+        return false;
+      }
 
       switchView();
+    } else {
+      setErrorMessage('Passwords don\'t match');
+      return false;
     }
   }
 
@@ -79,6 +106,7 @@ function Login(props) {
         { !isRegistering ?
           (<form onSubmit={login}>
             <h2> Login </h2>
+            {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
             <fieldset className={classes.loginForm}>
               <div className={classes.inputRow}>
                 <div className={classes.inputField}>
@@ -128,10 +156,11 @@ function Login(props) {
                 Register
               </Button>
             </fieldset>
-          </form>) 
+          </form>)
           :
           (<form onSubmit={register}>
           <h2> Register </h2>
+          {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
           <fieldset className={classes.loginForm}>
             <div className={classes.inputRow}>
               <div className={classes.inputField}>

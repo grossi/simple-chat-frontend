@@ -24,7 +24,8 @@ export default {
     textAlign: "left",
     fontSize: "medium",
     marginLeft: "10px",
-    whiteSpace: "pre-wrap"
+    whiteSpace: "pre-wrap",
+    overflowWrap: "break-word"
   },
   messageTitle: {
     display: "flex",
