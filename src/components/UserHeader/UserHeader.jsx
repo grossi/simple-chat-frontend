@@ -1,9 +1,9 @@
-import React from 'react';
-import { gql, useQuery  } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { Button } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import styles from './UserHeaderStyle.js';
+import React from "react";
+import { gql, useQuery } from "@apollo/client";
+import { useHistory } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import styles from "./UserHeaderStyle.js";
 
 const MY_USER = gql`
   query MY_USER {
@@ -26,26 +26,30 @@ function UserHeader(props) {
 
   return (
     <>
-      {myUserData ? 
-        (<div className={classes.userRow}>
-          <div className={classes.username}> 
-            {myUserData.myUser.name}
-          </div>
+      {myUserData ? (
+        <div className={classes.userRow}>
+          <div className={classes.username}>{myUserData.myUser.name}</div>
           <Button
             size="medium"
             type="button"
             className={classes.loginButton}
             onClick={logout}
-          > Logout </Button>
-        </div>)
-        :
-        (<Button
+          >
+            {" "}
+            Logout{" "}
+          </Button>
+        </div>
+      ) : (
+        <Button
           size="medium"
           type="button"
           className={classes.loginButton}
-          onClick={() => window.location.assign('/login')}
-        > Login </Button>)
-      }
+          onClick={() => window.location.assign("/login")}
+        >
+          {" "}
+          Login{" "}
+        </Button>
+      )}
     </>
   );
 }

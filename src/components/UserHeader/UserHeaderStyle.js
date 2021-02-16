@@ -1,6 +1,6 @@
 export default {
   loginButton: {
-    backgroundColor: "#82b7e8"
+    backgroundColor: "#82b7e8",
   },
   username: {
     margin: "8px",
@@ -8,5 +8,5 @@ export default {
   },
   userRow: {
     display: "flex",
-  }
-}
+  },
+};

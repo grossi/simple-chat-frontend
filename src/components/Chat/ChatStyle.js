@@ -12,7 +12,7 @@ export default {
     marginRight: "20vw",
     paddingRight: "15px",
     paddingLeft: "15px",
-    color: "#333"
+    color: "#333",
   },
   header: {
     maginTop: "10px",
@@ -25,29 +25,29 @@ export default {
     fontSize: "medium",
     marginLeft: "10px",
     whiteSpace: "pre-wrap",
-    overflowWrap: "break-word"
+    overflowWrap: "break-word",
   },
   messageTitle: {
     display: "flex",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   creatorName: {
     textAlign: "left",
     fontSize: "large",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   timeStamp: {
     margin: "2px 4px",
     fontSize: "10px",
   },
   messageBlock: {
-    width: "100%"
+    width: "100%",
   },
   messagesBlock: {
-    maxHeight: 'Calc(100vh - 310px)',
-    overflow: 'auto'
+    maxHeight: "Calc(100vh - 310px)",
+    overflow: "auto",
   },
   submitButton: {
-    backgroundColor: "#82b7e8"
-  }
-}
+    backgroundColor: "#82b7e8",
+  },
+};

@@ -12,7 +12,7 @@ export default {
     marginRight: "20vw",
     paddingRight: "15px",
     paddingLeft: "15px",
-    color: "#333"
+    color: "#333",
   },
   header: {
     maginTop: "10px",
@@ -22,4 +22,4 @@ export default {
   submitButton: {
     backgroundColor: "#8ec4f5",
   },
-}
+};
