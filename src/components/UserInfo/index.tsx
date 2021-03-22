@@ -2,8 +2,18 @@ import React from "react";
 import { gql, useQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import styles from "./UserHeaderStyle.js";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  username: {
+    marginRight: theme.spacing(3),
+    fontWeight: 700,
+    alignSelf: "center"
+  },
+  userRow: {
+    display: "flex",
+  },
+}));
 
 const MY_USER = gql`
   query MY_USER {
@@ -14,8 +24,8 @@ const MY_USER = gql`
   }
 `;
 
-function UserHeader(props) {
-  const { classes } = props;
+function UserHeader(props: any) {
+  const classes = useStyles();
   const history = useHistory();
   const { data: myUserData } = useQuery(MY_USER);
 
@@ -32,26 +42,26 @@ function UserHeader(props) {
           <Button
             size="medium"
             type="button"
-            className={classes.loginButton}
+            color="secondary"
+            variant="outlined"
             onClick={logout}
           >
-            {" "}
-            Logout{" "}
+            Logout
           </Button>
         </div>
       ) : (
         <Button
           size="medium"
           type="button"
-          className={classes.loginButton}
+          color="secondary"
+          variant="contained"
           onClick={() => window.location.assign("/login")}
         >
-          {" "}
-          Login{" "}
+          Login
         </Button>
       )}
     </>
   );
 }
 
-export default withStyles(styles)(UserHeader);
+export default UserHeader;
