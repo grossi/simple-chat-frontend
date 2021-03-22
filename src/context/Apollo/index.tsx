@@ -5,14 +5,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { createBrowserHistory } from "history";
-import dotenv from "dotenv";
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import Chat from "./Chat/Chat";
-import Login from "./Login/Login";
-
-dotenv.config();
 
 let uri;
 
@@ -39,21 +32,12 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const hist = createBrowserHistory();
-
-function App() {
+function ApolloContext(props: any) {
   return (
-    <React.StrictMode>
-      <ApolloProvider client={client}>
-        <Router history={hist}>
-          <Switch>
-            <Route exact path="/" component={Chat} />
-            <Route path="/login" component={Login} />
-          </Switch>
-        </Router>
-      </ApolloProvider>
-    </React.StrictMode>
+    <ApolloProvider client={client}>
+      {props.children}
+    </ApolloProvider>
   );
 }
 
-export default App;
+export default ApolloContext;
