@@ -9,6 +9,12 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  title: {
+    textAlign: "center",
+  },
+  form: {
+    paddingBottom: theme.spacing(2),
+  },
 }));
 
 const ADD_USER = gql`
@@ -63,70 +69,68 @@ function RegisterForm(props: RegisterFormProps) {
   };
 
   return (
-    <form onSubmit={register}>
-      <h2> Register </h2>
+    <form onSubmit={register} className={classes.form}>
+      <h2 className={classes.title}> Register </h2>
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-      <fieldset>
+      <div>
         <div>
-          <div>
-            <TextField
-              label="Username"
-              id="username"
-              type="text"
-              required
-              autoComplete="username"
-              margin="dense"
-              variant="outlined"
-              value={userNameInput}
-              onChange={(e) => setUserNameInput(e.target.value)}
-            />
-          </div>
-          <div>
-            <TextField
-              label="Password"
-              id="password"
-              type="password"
-              required
-              autoComplete="password"
-              margin="dense"
-              variant="outlined"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-            />
-          </div>
-          <div>
-            <TextField
-              label="Confirm Password"
-              id="confirmpassword"
-              type="password"
-              required
-              autoComplete="passwordconfirmation"
-              margin="dense"
-              variant="outlined"
-              value={passwordConfirmationInput}
-              onChange={(e) => setPasswordConfirmationInput(e.target.value)}
-            />
-          </div>
+          <TextField
+            label="Username"
+            id="username"
+            type="text"
+            required
+            autoComplete="username"
+            margin="dense"
+            variant="outlined"
+            value={userNameInput}
+            onChange={(e) => setUserNameInput(e.target.value)}
+          />
         </div>
-        <Button
-          className={classes.button}
-          id="submit-button"
-          variant="outlined"
-          color="secondary"
-          type="submit"
-        >
-          Register
-        </Button>
-        <Button
-          className={classes.button}
-          id="start-login-button"
-          variant="outlined"
-          color="secondary"
-          onClick={props.switchView}
-        >
-          Login
-        </Button>
-      </fieldset>
+        <div>
+          <TextField
+            label="Password"
+            id="password"
+            type="password"
+            required
+            autoComplete="password"
+            margin="dense"
+            variant="outlined"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+          />
+        </div>
+        <div>
+          <TextField
+            label="Confirm Password"
+            id="confirmpassword"
+            type="password"
+            required
+            autoComplete="passwordconfirmation"
+            margin="dense"
+            variant="outlined"
+            value={passwordConfirmationInput}
+            onChange={(e) => setPasswordConfirmationInput(e.target.value)}
+          />
+        </div>
+      </div>
+      <Button
+        className={classes.button}
+        id="submit-button"
+        variant="outlined"
+        color="secondary"
+        type="submit"
+      >
+        Register
+      </Button>
+      <Button
+        className={classes.button}
+        id="start-login-button"
+        variant="outlined"
+        color="secondary"
+        onClick={props.switchView}
+      >
+        Login
+      </Button>
     </form>
   );
 }

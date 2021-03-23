@@ -24,7 +24,11 @@ const MY_USER = gql`
   }
 `;
 
-function UserHeader(props: any) {
+interface UserInfoProps { 
+  setIsLoginModalOpen: (arg: boolean | ((state: boolean) => boolean)) => void;
+}
+
+function UserInfo(props: UserInfoProps) {
   const classes = useStyles();
   const history = useHistory();
   const { data: myUserData } = useQuery(MY_USER);
@@ -55,7 +59,7 @@ function UserHeader(props: any) {
           type="button"
           color="secondary"
           variant="contained"
-          onClick={() => window.location.assign("/login")}
+          onClick={() => props.setIsLoginModalOpen(state => !state)}
         >
           Login
         </Button>
@@ -64,4 +68,4 @@ function UserHeader(props: any) {
   );
 }
 
-export default UserHeader;
+export default UserInfo;

@@ -14,12 +14,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+interface HeaderProps { 
+  setIsLoginModalOpen: (arg: boolean | ((state: boolean) => boolean)) => void;
+}
+
+export default function Header(props: HeaderProps) {
   const classes = useStyles();
   return (
     <header className={classes.header}>
       <h1> Simple Chat </h1>
-      <UserInfo />
+      <UserInfo setIsLoginModalOpen={props.setIsLoginModalOpen} />
     </header>
   );
 }
