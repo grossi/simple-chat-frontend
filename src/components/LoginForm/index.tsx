@@ -9,6 +9,12 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  title: {
+    textAlign: "center",
+  },
+  form: {
+    paddingBottom: theme.spacing(2),
+  },
 }));
 
 const AUTH_USER = gql`
@@ -68,57 +74,55 @@ function LoginForm(props: LoginProps) {
   };
 
   return (
-    <form onSubmit={login}>
-      <h2> Login </h2>
+    <form onSubmit={login} className={classes.form}>
+      <h2 className={classes.title}> Login </h2>
       {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
-      <fieldset>
+      <div>
         <div>
-          <div>
-            <TextField
-              label="Username"
-              id="username"
-              type="text"
-              required
-              autoComplete="username"
-              margin="dense"
-              variant="outlined"
-              value={userNameInput}
-              onChange={(e) => setUserNameInput(e.target.value)}
-            />
-          </div>
-          <div>
-            <TextField
-              label="Password"
-              id="password"
-              type="password"
-              required
-              autoComplete="password"
-              margin="dense"
-              variant="outlined"
-              value={passwordInput}
-              onChange={(e) => setPasswordInput(e.target.value)}
-            />
-          </div>
+          <TextField
+            label="Username"
+            id="username"
+            type="text"
+            required
+            autoComplete="username"
+            margin="dense"
+            variant="outlined"
+            value={userNameInput}
+            onChange={(e) => setUserNameInput(e.target.value)}
+          />
         </div>
-        <Button
-          className={classes.button}
-          id="submit-button"
-          variant="outlined"
-          color="secondary"
-          type="submit"
-        >
-          Login
-        </Button>
-        <Button
-          className={classes.button}
-          id="start-register-button"
-          variant="outlined"
-          color="secondary"
-          onClick={props.switchView}
-        >
-          Register
-        </Button>
-      </fieldset>
+        <div>
+          <TextField
+            label="Password"
+            id="password"
+            type="password"
+            required
+            autoComplete="password"
+            margin="dense"
+            variant="outlined"
+            value={passwordInput}
+            onChange={(e) => setPasswordInput(e.target.value)}
+          />
+        </div>
+      </div>
+      <Button
+        className={classes.button}
+        id="submit-button"
+        variant="outlined"
+        color="secondary"
+        type="submit"
+      >
+        Login
+      </Button>
+      <Button
+        className={classes.button}
+        id="start-register-button"
+        variant="outlined"
+        color="secondary"
+        onClick={props.switchView}
+      >
+        Register
+      </Button>
     </form>
   );
 }
